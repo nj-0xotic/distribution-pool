@@ -2,6 +2,38 @@
 
 The NFTYieldDistributor contract is a smart contract that enables yield distribution for NFT holders. It allows NFT owners to earn rewards based on a configurable yield rate and NFT-specific multipliers.
 
+```mermaid
+graph TD
+    subgraph Admin Actions
+        A[Admin]
+        A --> B[Set Yield Rate]
+        A --> C[Set NFT Multipliers]
+        A --> D[Deposit Reward Tokens]
+        A --> E[Add Bonus Rewards]
+        A --> F[Pause/Unpause]
+    end
+
+    subgraph Yield Calculation
+        H[Time Passed] --> K[Calculate Yield]
+        I[Yield Rate] --> K
+        J[NFT Multiplier] --> K
+        K --> L[Claimable Amount]
+        M[Bonus Balance] --> L
+    end
+
+    subgraph User Actions
+        N[NFT Owner] --> O[Check Pending Yield]
+        N --> P[Claim Rewards]
+        L --> P
+    end
+
+    subgraph Token Flow
+        E --> Q[Contract Balance]
+        Q --> P
+        P --> R[User Wallet]
+    end
+```
+
 ### Key Features
 
 - Reward distribution based on time-based yield calculations
@@ -9,6 +41,31 @@ The NFTYieldDistributor contract is a smart contract that enables yield distribu
 - Bonus reward mechanism for individual NFTs
 - Pausable functionality for emergency situations
 - Owner-controlled yield rate and multiplier settings
+
+#### Admin Actions
+
+- Deploy contract with reward token and NFT contract addresses
+- Configure yield rates and NFT-specific multipliers
+- Deposit tokens for rewards
+- Add bonus rewards for specific NFTs
+- Control withdrawal access
+
+#### Yield Calculation
+
+- Time-based linear vesting
+- Formula: Time Passed × Yield Rate × NFT Multiplier
+- Bonus rewards added to final claimable amount
+
+#### User Actions
+
+- NFT holders can check pending yields
+- Claim accumulated rewards + bonuses
+
+#### Token Flow
+
+- Admin deposits tokens to contract
+- Contract distributes to NFT holders upon claim
+- Each NFT can have different yield amounts while maintaining same rate
 
 ### Contract Functions
 
@@ -37,4 +94,5 @@ npx hardhat run scripts/deploy.js --network <your-network>
 
 # Run tests
 npx hardhat test
+
 
